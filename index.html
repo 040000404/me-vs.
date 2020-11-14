@@ -57,6 +57,7 @@
   </div>
   </div>
 
+
   <script type="text/javascript">
     //blink
     window.addEventListener("load", function() {
@@ -67,9 +68,8 @@
       g.style.display = (f.style.display == 'none' ? '' : 'none');
     }, 7000);}, false);
     //images
-    var folder = "../media"; //TODO: change this to the path to your folder with the images.
-   $.ajax({
-       url: folder,
+    $.ajax({
+       url: 'images.php',
        success: function(data) {
            $(data).find("a").attr("href", function(i, val) {
                $("#blog").append("<img class='images' src='"+ val + "'><br>");
