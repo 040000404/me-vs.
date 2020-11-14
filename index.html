@@ -9,9 +9,11 @@
   <style media="screen">
     *{
       background-color: rgb(168,168,168);
+
     }
     body{
       display:flex;
+      overflow-x: hidden;
 
     }
     #trial{
@@ -23,11 +25,12 @@
       height: 100vh;
       width:100vw;
       color:black;
-      overflow-y: hidden;
+      overflow: hidden;
     }
     #blog{
       position: relative;
       overflow-y: auto;
+      overflow-x: hidden;
       flex: 1;
       margin-top:15vh;
       height:70vh;
@@ -49,18 +52,7 @@
 <body>
 
   <div id="blog">
-    <?php
-    $directory = "media";
-    $images = glob($directory . "/*.*");
 
-    foreach($images as $image)
-    {
-    $imageData = base64_encode(file_get_contents($image));
-    $src = 'data: '.mime_content_type($image).';base64,'.$imageData;
-    echo '<img src="', $src, .base64_encode(file_get_contents($image)).'">';
-
-    }
-    ?>
   </div>
   <div id="trial">
     <div id="trial_content" style="position:relative;left:50%;top:50%;margin-left:-50px;background-color: rgb(168,168,168);">
@@ -80,14 +72,31 @@
       g.style.display = (f.style.display == 'none' ? '' : 'none');
     }, 7000);}, false);
     //images
-    $.ajax({
-       url: 'images.php',
-       success: function(data) {
-           $(data).find("a").attr("href", function(i, data) {
-               $("#blog").append("<img class='images' src='"+ data + "'><br>");
-           });
-       }
-   });
+    window.onload = function () { startLoadFile(); };
+    function startLoadFile(){
+      $.ajax({
+        url: 'images.json',
+        type: 'GET',
+        dataType : 'json',
+        success : function (data) {
+          createImages(data)
+          }
+        });
+      } // JSON 포멧 데이터 처리
+      function createImages(objImageInfo) {
+        var images = objImageInfo.images;
+        var strDOM = "";
+        for (var i = 0; i < images.length; i++) {
+           // N번째 이미지 정보를 구하기
+           var image = images[i];
+           // N번째 이미지 패널을 생성
+           strDOM +=  "<img  class='images' src='" + image.url + "'><br>";
+           strDOM += '</div>';
+         }
+           // 이미지 컨테이너에 생성한 이미지 패널들을 추가하기
+           var $blog = $("#blog"); $blog.append(strDOM);
+         }
+
   </script>
 </body>
 
