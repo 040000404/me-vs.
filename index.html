@@ -27,6 +27,10 @@
       color:black;
       overflow: hidden;
     }
+    #text{
+      position:absolute;
+      z-index:4;
+    }
     #blog{
       position: relative;
       overflow-y: auto;
@@ -47,12 +51,40 @@
     }
 
   </style>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-database.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyDLM9F_sOMha70juSM8IQyZOAVjbHV-o5k",
+    authDomain: "me-vs-74dba.firebaseapp.com",
+    databaseURL: "https://me-vs-74dba.firebaseio.com",
+    projectId: "me-vs-74dba",
+    storageBucket: "me-vs-74dba.appspot.com",
+    messagingSenderId: "641999743097",
+    appId: "1:641999743097:web:e7c55807681fb063860ca8",
+    measurementId: "G-PT1LT2YN0B"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
 </head>
 
 <body>
 
   <div id="blog">
-
+    <div id="count" style="left:50%;
+    top:50%;position:fixed;z-index:3;">0</div>
+    <p style="left:50%;top:50%;position:fixed;z-index:3;"> left until lease</p>
   </div>
   <div id="trial">
     <div id="trial_content" style="position:relative;left:50%;top:50%;margin-left:-50px;background-color: rgb(168,168,168);">
@@ -61,16 +93,15 @@
   </div>
   </div>
 
-
   <script type="text/javascript">
     //blink
     window.addEventListener("load", function() {
     var f = document.getElementById('trial');
     var g = document.getElementById('blog');
-    setInterval(function() {
+     setInterval(function() {
       f.style.display = (f.style.display == 'none' ? '' : 'none');
       g.style.display = (f.style.display == 'none' ? '' : 'none');
-    }, 7000);}, false);
+     }, 7000);}, false);
     //images
     window.onload = function () { startLoadFile(); };
     function startLoadFile(){
@@ -97,7 +128,36 @@
            var $blog = $("#blog"); $blog.append(strDOM);
          }
 
+         //receive keyboard input
+         document.addEventListener('keyup', function(e){
+           var f = document.getElementById('trial');
+           var g = document.getElementById('blog');
+           var h = document.getElementById('ad');
+           if(e.keyCode == 13)
+           window.location.reload();
+           setInterval(function() {
+             f.style.display = (h.style.display == 'none' ? '' : 'none');
+             g.style.display = (h.style.display == 'none' ? '' : 'none');
+             h.style.display = (h.style.display == 'none' ? '' : 'none');
+           }, 7000);}, false);
+
+           //counter
+           const countEl = document.getElementById('count');
+           updateVisitCount();
+           function updateVisitCount() {
+	fetch('https://api.countapi.xyz/update/test?amount=1')
+	.then(res => res.json())
+	.then(res => {
+		countEl.innerHTML = 50 - res.value;
+	})
+}
+  //end of website
+  var b = document.getElementById('blog');
+  if(countEl.innerHTML ==0)
+  b.style.display = none;
+
   </script>
+
 </body>
 
 </html>
