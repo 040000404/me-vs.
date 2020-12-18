@@ -148,17 +148,17 @@
 	fetch('https://api.countapi.xyz/update/test?amount=1')
 	.then(res => res.json())
 	.then(res => {
-		countEl.innerHTML = 1200 - res.value;
+		countEl.innerHTML = 1000 - res.value;
 	})
 }
   //end of website
   var b = document.getElementById('blog');
+  var t = document.getElementById('trial');
+
   if(countEl.innerHTML ==0)
   b.style.display = 'none';
   b.style.display = '';
-
   </script>
-
 </body>
 
 </html>
